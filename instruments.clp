@@ -35,6 +35,10 @@
    (assert (value name Kallie))
    (assert (value name Valeria))
    (assert (value name Stella))
+   (assert (value age 6))
+   (assert (value age 7))
+   (assert (value age 8))
+   (assert (value age 9))
 )
 
 (defrule solution "Finds the solution to the riddle and asserts it into the factbase."
@@ -101,13 +105,10 @@
 )
 
 (defrule generateCombinations "Given a possible value, generates all possible combinations for that value (one with each possible age)."
-   ?fact <- (value ?type ?value)
+   ?fact <- (value ?type &:(not (= ?type "age")) ?value)
+   ?age <- (value age ?ageVal)
    =>
-   (retract ?fact)
-   (assert (info (type ?type) (value ?value) (age 6)))
-   (assert (info (type ?type) (value ?value) (age 7)))
-   (assert (info (type ?type) (value ?value) (age 8)))
-   (assert (info (type ?type) (value ?value) (age 9)))
+   (assert (info (type ?type) (value ?value) (age ?ageVal)))
 )
 
 (run)
